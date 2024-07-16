@@ -79,104 +79,68 @@ const initialHistoryList = [
 
 // Replace //
 class App extends Component {
-  state = {
-    lastestHistoryList: initialHistoryList,
-    searchInput: '',
-    isTrue: false,
+  state = {historyList: initialHistoryList, searchInput: '', isTrue: false}
+
+  onChange = e => {
+    this.setState({historyList: e.target.value})
   }
-  fillFunction = value => {
-    const {lastestHistoryList} = this.state
-    const newHistoryList = lastestHistoryList.filter(
-      eachValue => eachValue.id !== value,
-    )
-    if (newHistoryList.length !== 0) {
-      this.setState({lastestHistoryList: newHistoryList, isTrue: true})
-    } else {
-      this.setState({lastestHistoryList: newHistoryList})
-    }
-  }
-  onChangeFunction = e => {
-    this.setState({lastestHistoryList: e.target.value})
-  }
+
+  onClickButton = value => {}
+
   render() {
-    const {searchInput, lastestHistoryList} = this.state
-    const {isTrue} = this.state
-    const newHistoryList = lastestHistoryList.filter(eachDetails =>
-      eachDetails.toLowerCase().includes(searchInput.toLowerCase()),
-    )
-    if (newHistoryList === 0) {
-      isTrue = true
-    }
+    const {historyList, searchInput} = this.state
+
     return (
       <div className="background-co">
-        <div className="histoty-co">
+        <div className="card-co">
           <img
             src="https://assets.ccbp.in/frontend/react-js/history-website-logo-img.png"
             alt="app logo"
-            className="history"
+            className="app-logo"
           />
-          <div className="searchBar">
+          <div className="search-co">
             <img
               src="https://assets.ccbp.in/frontend/react-js/search-img.png"
               alt="search"
               className="search"
             />
-            <div className="searchBar1">
-              <input
-                type="search"
-                placeholder="Search history"
-                className="searchHistory"
-                value={searchInput}
-                onChange={this.onChangeFunction}
-              />
-            </div>
           </div>
-          <div className="contain-holder">
-            {!isTrue && (
-              <ul>
-                {newHistoryList.map(eachDetails => (
-                  <li
-                    className="items-holder"
-                    key={eachDetails.id}
-                    eachDetails={eachDetails}
-                  >
-                    <p className="time">{eachDetails.timeAccessed}</p>
-                   
-                    <img 
-                      src={eachDetails.logoUrl}
-                      alt="domain logo"
-                      className="logo-element"
-                    />
-                    <p>{eachDetails.title}</p>
-                    <p>{eachDetails.domainUrl}</p>
+          <input
+            type="search"
+            placeholder="search history"
+            onChange={this.onChange}
+            className="type"
+          />
+        </div>
+        <div className="Inner-Details">
+          <ul className="unorderList">
+            {historyList.map(each => (
+              <li key={each.id} value={searchInput}>
+                <div className="browserList">
+                  <p className="time">{each.timeAccessed}</p>
+                  <div className="logoUrl-co">
+                    <img src={each.logoUrl} className="logo-Url" />
+                    <p className="title">{each.title}</p>
+                    <p className="title1">{each.domainUrl}</p>
                     <button
-                      className="delete-button"
+                      className="button"
                       type="button"
-                      onClick={this.fillFunction}
+                      onClick={this.onClickButton}
                     >
                       <img
                         src="https://assets.ccbp.in/frontend/react-js/delete-img.png"
                         alt="delete"
-                        className="delete1"
+                        className="delete"
                       />
                     </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-         
-          
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
-        {isTrue && (
-          <div>
-          <p>There is a no history</p>
-          </div>
-
-        )}
       </div>
     )
   }
 }
-
 export default App
